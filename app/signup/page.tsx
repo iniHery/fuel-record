@@ -7,7 +7,11 @@ import { Label } from "@/components/forms/label";
 import { FormMessage, Message } from "@/components/forms/form-message";
 import { encodedRedirect } from "@/utils/utils";
 
-export default function Signup({ searchParams }: { searchParams: Message }) {
+export default async function Signup({
+  searchParams,
+}: {
+  searchParams: Message;
+}) {
   const signUp = async (formData: FormData) => {
     "use server";
     const email = formData.get("email")?.toString();
@@ -34,7 +38,7 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
       return encodedRedirect(
         "success",
         "/signup",
-        "Thanks for signing up! Please check your email for a verification link.",
+        "Thanks for signing up! Please check your email for a verification link."
       );
     }
   };
@@ -50,7 +54,7 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
   return (
     <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
       <Link
-        href="/"
+        href="/login"
         className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
       >
         <svg
@@ -66,15 +70,21 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
           className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
         >
           <polyline points="15 18 9 12 15 6" />
-        </svg>{" "}
+        </svg>
         Back
       </Link>
 
-      <form className="flex flex-col w-full justify-center gap-2 text-foreground [&>input]:mb-6 max-w-md">
+      <form
+        className="flex flex-col w-full justify-center gap-2 text-foreground [&>input]:mb-6 max-w-md"
+        action={signUp}
+      >
         <h1 className="text-2xl font-medium">Sign up</h1>
-        <p className="text-sm text text-foreground/60">
-          Already have an account?{" "}
-          <Link className="text-blue-600 font-medium underline" href="/login">
+        <p className="text-sm text-foreground/60">
+          Already have an account?
+          <Link
+            href="/Login"
+            className="text-blue-600 pl- font-medium underline"
+          >
             Log in
           </Link>
         </p>
@@ -88,7 +98,11 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
             placeholder="••••••••"
             required
           />
-          <SubmitButton formAction={signUp} pendingText="Signing up...">
+          <SubmitButton
+            formAction={signUp}
+            pendingText="Signing up..."
+            className="mt-4"
+          >
             Sign up
           </SubmitButton>
         </div>

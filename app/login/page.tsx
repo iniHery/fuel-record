@@ -1,35 +1,105 @@
-import Link from "next/link";
+// import { createClient } from "@/utils/supabase/server";
+// import { redirect } from "next/navigation";
+// import Link from "next/link";
+// import { SubmitButton } from "@/components/forms/submit-button";
+// import { Input } from "@/components/forms/input";
+// import { Label } from "@/components/forms/label";
+// import { FormMessage, Message } from "@/components/forms/form-message";
+// import { emailLogin } from "./actions";
+
+// export default async function Login({
+//   searchParams,
+// }: {
+//   searchParams: { message?: string };
+// }) {
+//   const supabase = await createClient();
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+
+//   if (user) {
+//     return redirect("/signup");
+//   }
+
+//   return (
+//     <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
+//       <div className="w-full flex-1 flex items-center justify-center p-4">
+//         <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+//           <h1 className="text-2xl font-medium mb-4">Login</h1>
+//           <p className="text-sm text-gray-600 mb-6">
+//             Enter your email and password to log in to your account.
+//           </p>
+//           {/* {searchParams.message && <FormMessage message={searchParams} />} */}
+//           <form className="flex flex-col gap-4" action={emailLogin}>
+//             <div className="flex flex-col gap-2">
+//               <Label htmlFor="email">Email</Label>
+//               <Input
+//                 id="email"
+//                 name="email"
+//                 type="email"
+//                 placeholder="m@example.com"
+//                 required
+//               />
+//             </div>
+//             <div className="flex flex-col gap-2">
+//               <Label htmlFor="password">Password</Label>
+//               <Input
+//                 id="password"
+//                 name="password"
+//                 type="password"
+//                 placeholder="••••••••"
+//                 required
+//               />
+//             </div>
+//             <SubmitButton
+//               formAction={emailLogin}
+//               pendingText="Logging in..."
+//               className="w-full"
+//             >
+//               Login
+//             </SubmitButton>
+//           </form>
+//           <div className="text-center text-sm mt-4">
+//             Don&apos;t have an account?{" "}
+//             <Link
+//               href="/signup"
+//               className="text-blue-600 font-medium underline"
+//             >
+//               Sign up
+//             </Link>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { SubmitButton } from "../../components/forms/submit-button";
-import { Label } from "@/components/forms/label";
+import Link from "next/link";
+import { SubmitButton } from "@/components/forms/submit-button";
 import { Input } from "@/components/forms/input";
+import { Label } from "@/components/forms/label";
 import { FormMessage, Message } from "@/components/forms/form-message";
-import { encodedRedirect } from "@/utils/utils";
+import { emailLogin } from "./actions";
 
-export default function Login({ searchParams }: { searchParams: Message }) {
-  const signIn = async (formData: FormData) => {
-    "use server";
+export default async function Login({
+  searchParams,
+}: {
+  searchParams: { message?: string };
+}) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      return encodedRedirect("error", "/login", "Could not authenticate user");
-    }
-
-    return redirect("/protected");
-  };
+  if (user) {
+    return redirect("/dashboard");
+  }
 
   return (
-    <div className="flex flex-col flex-1 p-4 w-full items-center">
-      <Link
+    <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
+      {/* <Link
         href="/"
         className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
       >
@@ -46,43 +116,59 @@ export default function Login({ searchParams }: { searchParams: Message }) {
           className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
         >
           <polyline points="15 18 9 12 15 6" />
-        </svg>{" "}
+        </svg>
         Back
-      </Link>
+      </Link> */}
 
-      <form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground [&>input]:mb-6 max-w-md p-4">
-        <h1 className="text-2xl font-medium">Log in</h1>
-        <p className="text-sm text-foreground/60">
-          Don't have an account?{" "}
-          <Link className="text-blue-600 font-medium underline" href="/signup">
-            Sign up
-          </Link>
-        </p>
-        <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-          <Label htmlFor="email">Email</Label>
-          <Input name="email" placeholder="you@example.com" required />
-          <div className="flex justify-between items-center">
-            <Label htmlFor="password">Password</Label>
-
-            <Link
-              className="text-sm text-blue-600 underline"
-              href="/forgot-password"
+      <div className="w-full flex-1 flex items-center justify-center p-4">
+        <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+          <h1 className="text-2xl font-medium mb-4">Login</h1>
+          <p className="text-sm text-gray-600 mb-6">
+            Enter your email and password to log in to your account.
+          </p>
+          {/* {searchParams.message && (
+            <FormMessage message={searchParams} />
+          )} */}
+          <form className="flex flex-col gap-4" action={emailLogin}>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="m@example.com"
+                required
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+            <SubmitButton
+              formAction={emailLogin}
+              pendingText="Logging in..."
+              className="w-full"
             >
-              Forgot Password?
+              Login
+            </SubmitButton>
+          </form>
+          <div className="text-center text-sm mt-4">
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/signup"
+              className="text-blue-600 font-medium underline"
+            >
+              Sign up
             </Link>
           </div>
-          <Input
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            required
-          />
-          <SubmitButton formAction={signIn} pendingText="Signing In...">
-            Log in
-          </SubmitButton>
-          <FormMessage message={searchParams} />
         </div>
-      </form>
+      </div>
     </div>
   );
 }

@@ -6,9 +6,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "autoprefixer": "10.4.17",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "geist": "^1.2.1",
     "next": "latest",
