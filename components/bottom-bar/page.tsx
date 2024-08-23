@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function BottomBar() {
   return (
     <>
-      <div className="h-auto max-w-sm">
+      <div className="max-w-sm">
         <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white">
           <div className="grid h-full max-w-md grid-cols-4 items-center mx-auto font-regular text-xs">
             <Link href="/dashboard">

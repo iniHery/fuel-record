@@ -80,7 +80,7 @@ export default function History() {
   };
 
   return (
-    <div className="h-full w-full">
+    <div className="h-screen w-full bg-[#EAEDFF]">
       <div className="container mx-auto p-6">
         <div className="container mx-auto">
           <div className="flex items-center">

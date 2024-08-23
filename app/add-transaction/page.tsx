@@ -242,7 +242,7 @@ export default function Page() {
   };
 
   return (
-    <div className="h-full w-full max-w-sm">
+    <div className="h-full w-full max-w-sm bg-[#EAEDFF]">
       <div className="container mx-auto p-6">
         <div className="flex items-center">
           <Link href="/dashboard">

@@ -80,17 +80,20 @@ export default function FuelPurchasesPage() {
   };
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full max-w-sm bg-[#EAEDFF]">
       <div className="container mx-auto px-6">
-        <div className="h-auto p-2 relative">
-          <div className="fixed h-auto top-0 left-0 w-full pt-10 px-6 z-50 bg-white">
+        <div className="h-auto p-2 relative max-w-sm">
+          <div className="fixed h-auto top-0 left-0 w-full max-w-sm pt-10 px-6 z-50 bg-[#EAEDFF]">
             <div className="flex items-center rounded-lg pb-4">
               <div className="flex-shrink-0 bg-black p-6 rounded-lg"></div>
               <div className="ml-4">
                 {user ? (
-                  <form action={signOut} className="flex items-center gap-2">
-                    <p>{user.email}</p>
-                    <Button>Sign Out</Button>
+                  <form action={signOut} className="block items-center gap-2">
+                    <p className="font-medium">Gusher</p>
+                    <p className="text-gray-500 font-light text-sm">
+                      {user.email}
+                    </p>
+                    {/* <Button>Sign Out</Button> */}
                   </form>
                 ) : (
                   <Button asChild>
