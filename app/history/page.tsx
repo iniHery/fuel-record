@@ -8,7 +8,7 @@ import Link from "next/link";
 import BottomBar from "@/components/bottom-bar/page";
 
 // Main component for Fuel Purchases Page
-export default function FuelPurchasesPage() {
+export default function History() {
   const [fuelPurchases, setFuelPurchases] = useState<any[]>([]);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [lastTransaction, setLastTransaction] = useState<any>(null);
