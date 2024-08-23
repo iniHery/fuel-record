@@ -52,10 +52,10 @@ export default async function Signup({
   }
 
   return (
-    <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
+    <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-6">
       <Link
         href="/login"
-        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
+        className="absolute left-8 top-8 p-2 flex justify-center items-center text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -82,21 +82,27 @@ export default async function Signup({
         <p className="text-sm text-foreground/60">
           Already have an account?
           <Link
-            href="/Login"
+            href="/login"
             className="text-blue-600 pl- font-medium underline"
           >
-            Log in
+            Sign In
           </Link>
         </p>
         <div className="mt-8 flex flex-col gap-2 [&>input]:mb-3">
           <Label htmlFor="email">Email</Label>
-          <Input name="email" placeholder="you@example.com" required />
+          <Input
+            name="email"
+            placeholder="you@example.com"
+            required
+            className="w-full p-4 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+          />
           <Label htmlFor="password">Password</Label>
           <Input
             type="password"
             name="password"
             placeholder="••••••••"
             required
+            className="w-full p-4 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
           />
           <SubmitButton
             formAction={signUp}

@@ -19,7 +19,7 @@ export function SubmitButton({
   return (
     <button
       {...props}
-      className="bg-black h-8 flex items-center justify-center font-medium text-sm hover:bg-slate-800 transition-colors text-white rounded-md text-foreground"
+      className="w-full p-4 text-white bg-[#2945FF] rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
       type="submit"
       aria-disabled={pending}
     >
