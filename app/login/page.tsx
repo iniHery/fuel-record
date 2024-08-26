@@ -4,7 +4,7 @@ import Link from "next/link";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { Input } from "@/components/forms/input";
 import { Label } from "@/components/forms/label";
-import { FormMessage, Message } from "@/components/forms/form-message";
+
 import { emailLogin } from "./actions";
 
 export default async function Login({
@@ -21,6 +21,14 @@ export default async function Login({
     return redirect("/dashboard");
   }
 
+  interface FormMessageProps {
+    message?: string;
+  }
+
+  const FormMessage: React.FC<FormMessageProps> = ({ message }) => {
+    return <p>{message}</p>;
+  };
+
   return (
     <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2">
       <div className="w-full flex-1 flex items-center justify-center ">
@@ -29,9 +37,7 @@ export default async function Login({
           <p className="text-sm text-gray-600 mb-6">
             Enter your email and password to log in to your account.
           </p>
-          {/* {searchParams.message && (
-            <FormMessage message={searchParams} />
-          )} */}
+          <FormMessage message={searchParams?.message ?? ""} />
           <form className="flex flex-col gap-4" action={emailLogin}>
             <div className="flex flex-col gap-2">
               <Label htmlFor="email">Email</Label>
