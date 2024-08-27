@@ -26,7 +26,8 @@ export default async function Login({
   }
 
   const FormMessage: React.FC<FormMessageProps> = ({ message }) => {
-    return <p>{message}</p>;
+    if (!message) return null;
+    return <p className="text-red-600 mb-4">{message}</p>;
   };
 
   return (

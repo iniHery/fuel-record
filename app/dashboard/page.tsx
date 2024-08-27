@@ -6,6 +6,7 @@ import { signOut } from "@/app/login/actions";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import BottomBar from "@/components/bottom-bar/page";
+import { useRouter } from "next/router";
 
 // Main component for Fuel Purchases Page
 export default function FuelPurchasesPage() {
@@ -50,21 +51,34 @@ export default function FuelPurchasesPage() {
 
   // Handle delete operation
   const handleDelete = async (id: number) => {
-    const supabase = createClient();
-    const { error } = await supabase
-      .from("fuel_purchases")
-      .delete()
-      .eq("id", id);
-    if (error) {
-      console.error("Error deleting data:", error);
-    } else {
-      const updatedPurchases = fuelPurchases.filter(
-        (purchase) => purchase.id !== id
-      );
-      setFuelPurchases(updatedPurchases);
-      calculateTotalExpenses(updatedPurchases);
-      setLastTransaction(updatedPurchases[0] || null);
+    // Show a confirmation dialog before deleting
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this transaction?"
+    );
+
+    if (confirmDelete) {
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("fuel_purchases")
+        .delete()
+        .eq("id", id);
+      if (error) {
+        console.error("Error deleting data:", error);
+      } else {
+        const updatedPurchases = fuelPurchases.filter(
+          (purchase) => purchase.id !== id
+        );
+        setFuelPurchases(updatedPurchases);
+        calculateTotalExpenses(updatedPurchases);
+        setLastTransaction(updatedPurchases[0] || null);
+      }
     }
+  };
+
+  // Handle edit operation
+  const handleEdit = (id: number) => {
+    const router = useRouter();
+    router.push(`/add-transaction?id=${id}`);
   };
 
   const formatDate = (dateString: string) => {
@@ -80,10 +94,10 @@ export default function FuelPurchasesPage() {
   };
 
   return (
-    <div className="h-screen w-full max-w-sm bg-[#EAEDFF]">
+    <div className="h-full w-full flex justify-center bg-[#EAEDFF]">
       <div className="container mx-auto px-6">
-        <div className="h-auto p-2 relative max-w-sm">
-          <div className="fixed h-auto top-0 left-0 w-full max-w-sm pt-10 px-6 z-50 bg-[#EAEDFF]">
+        <div className="h-auto p-2 relative">
+          <div className="fixed h-auto top-0 left-0 w-full pt-10 px-6 z-50 bg-[#EAEDFF]">
             <div className="flex items-center rounded-lg pb-4">
               <div className="flex-shrink-0 bg-black p-6 rounded-lg"></div>
               <div className="ml-4">
@@ -157,6 +171,12 @@ export default function FuelPurchasesPage() {
               <div key={purchase.id} className="w-full flex-rows py-2 ">
                 <div className="flex flex-cols-2 gap-2 p-2 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
                   <div className="bg-black text-red-500 p-4 flex text-center items-center rounded-lg">
+                    <button
+                      className="text-blue-500"
+                      onClick={() => handleEdit(purchase.id)}
+                    >
+                      Edit
+                    </button>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"

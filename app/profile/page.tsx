@@ -91,7 +91,7 @@ export default function Ptofile() {
                 </svg>
               </div>
 
-              <div className="">
+              {/* <div className="">
                 {user ? (
                   <form
                     action={signOut}
@@ -101,16 +101,43 @@ export default function Ptofile() {
                       <p>{user.email}</p>
                     </div>
 
-                    <div className="w-full p-2 text-white bg-red-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                    <div
+                      typeof="submit"
+                      className="w-full p-2 text-white bg-red-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+                    >
                       <Button>Sign Out</Button>
                     </div>
                   </form>
                 ) : (
-                  <Button asChild>
-                    <Link href="/login" className="flex justify-start">
+                  <Link href="/login" className="flex justify-start">
+                    <Button asChild>Sign In</Button>
+                  </Link>
+                )}
+              </div> */}
+
+              <div className="">
+                {user ? (
+                  <form
+                    action={signOut}
+                    className="block justify-start items-center"
+                  >
+                    <div className="w-full p-4 my-6 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                      <p>{user.email}</p>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full p-4 text-white bg-red-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+                    >
+                      Sign Out
+                    </button>
+                  </form>
+                ) : (
+                  <Link href="/login" className="flex justify-start w-full">
+                    <button className="w-full p-2 text-white bg-blue-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
                       Sign In
-                    </Link>
-                  </Button>
+                    </button>
+                  </Link>
                 )}
               </div>
             </div>

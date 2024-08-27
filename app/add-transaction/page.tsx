@@ -13,6 +13,7 @@ export default function Page() {
   const [liters, setLiters] = useState("");
   const [date, setDate] = useState("");
   const supabase = createClient();
+  const [successAlert, setSuccessAlert] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -35,6 +36,8 @@ export default function Page() {
       setCategory("");
       setLiters("");
       setDate("");
+      setSuccessAlert(true);
+      setTimeout(() => setSuccessAlert(true), 3000);
     }
   };
 
@@ -85,6 +88,17 @@ export default function Page() {
         </div>
 
         <form onSubmit={handleSubmit} className="mt-10">
+          {successAlert && (
+            <div
+              className="w-full p-4 mb-4 text-white bg-green-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] relative"
+              role="alert"
+            >
+              <strong className="font-bold">Success!</strong>
+              <span className="block sm:inline">
+                Your transaction has been added.
+              </span>
+            </div>
+          )}
           <div className="mb-4">
             <label className="block text-black font-semibold pb-2">
               Amount
@@ -124,7 +138,7 @@ export default function Page() {
                   type="button"
                   onClick={() => setCategory("pertalite")}
                   className={`px-4 py-2 rounded-xl  border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
-                    category === "pertalie"
+                    category === "pertalite"
                       ? "bg-[#2945FF] text-white"
                       : "bg-white text-black"
                   }`}
@@ -182,6 +196,7 @@ export default function Page() {
           <div className="mb-4">
             <label className="block text-black font-semibold pb-1">Liter</label>
             <input
+              type="number"
               value={liters}
               onChange={(e) => setLiters(e.target.value)}
               required

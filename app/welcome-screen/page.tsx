@@ -14,10 +14,7 @@ export default async function WelcomeScreen() {
 
   return (
     <>
-      <div className="w-full h-screen block mt-10 p-6">
-        {/* <div>
-          <Header />
-        </div> */}
+      <div className="w-full h-screen max-w-sm block mt-10 p-6">
         <div className="mt-10">
           <div className="flex justify-start items-center">
             <svg
@@ -139,7 +136,7 @@ export default async function WelcomeScreen() {
                   className="w-full p-6 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
                   asChild
                 >
-                  <Link href="/login">Gate Started</Link>
+                  <Link href="/login">Get Started</Link>
                 </Button>
               )}
             </div>
