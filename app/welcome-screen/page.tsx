@@ -1,5 +1,3 @@
-import Header from "@/components/Header";
-import Image from "next/image";
 import { signOut } from "@/app/login/actions";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
