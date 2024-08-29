@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { NumericFormat } from "react-number-format";
 
+export const dynamic = "force-dynamic";
+
 export default function UpdatePage() {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
@@ -14,6 +16,7 @@ export default function UpdatePage() {
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [successAlert, setSuccessAlert] = useState(false);
+  const [error, setError] = useState("");
 
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -31,6 +34,7 @@ export default function UpdatePage() {
 
         if (error) {
           console.error("Error fetching data:", error);
+          setError("Failed to fetch data. Please try again later.");
         } else if (data) {
           setAmount(data.amount);
           setCategory(data.category);
@@ -52,16 +56,22 @@ export default function UpdatePage() {
       return;
     }
 
-    const { error } = await supabase
-      .from("fuel_purchases")
-      .update({ amount, category, liters, date })
-      .eq("id", id);
+    try {
+      const { error } = await supabase
+        .from("fuel_purchases")
+        .update({ amount, category, liters, date })
+        .eq("id", id);
 
-    if (error) {
-      console.error("Error updating data:", error);
-    } else {
-      setSuccessAlert(true);
-      setTimeout(() => setSuccessAlert(false), 3000);
+      if (error) {
+        console.error("Error updating data:", error);
+        setError("Failed to update transaction. Please try again.");
+      } else {
+        setSuccessAlert(true);
+        setTimeout(() => setSuccessAlert(false), 3000);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setError("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -119,6 +129,16 @@ export default function UpdatePage() {
           </div>
         </div>
 
+        {error && (
+          <div
+            className="w-full p-4 mb-4 text-white bg-red-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] relative"
+            role="alert"
+          >
+            <strong className="font-bold">Error!</strong>
+            <span className="block sm:inline">{error}</span>
+          </div>
+        )}
+
         <form onSubmit={handleUpdate} className="mt-10">
           {successAlert && (
             <div
@@ -160,7 +180,7 @@ export default function UpdatePage() {
                   onClick={() => setCategory("pertamax")}
                   className={`px-4 py-2 rounded-xl  border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
                     category === "pertamax"
-                      ? "bg-[#2945FF] text-white"
+                      ? "bg-blue-400 text-white"
                       : "bg-white text-black"
                   }`}
                 >
@@ -169,43 +189,36 @@ export default function UpdatePage() {
                 <button
                   type="button"
                   onClick={() => setCategory("pertalite")}
-                  className={`px-4 py-2 rounded-xl  border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  className={`px-4 py-2 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
                     category === "pertalite"
-                      ? "bg-[#2945FF] text-white"
+                      ? "bg-blue-400 text-white"
                       : "bg-white text-black"
                   }`}
                 >
                   Pertalite
                 </button>
-              </div>
-
-              <div className="flex mb-4 gap-4">
-                <div className="basis-2/3">
-                  <button
-                    type="button"
-                    onClick={() => setCategory("dexlite")}
-                    className={`px-4 py-2 w-full rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
-                      category === "dexlite"
-                        ? "bg-[#2945FF] text-white"
-                        : "bg-white text-black"
-                    }`}
-                  >
-                    Dexlite
-                  </button>
-                </div>
-                <div className="basis-1/3">
-                  <button
-                    type="button"
-                    onClick={() => setCategory("solar")}
-                    className={`px-4 py-2 w-full rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
-                      category === "solar"
-                        ? "bg-[#2945FF] text-white"
-                        : "bg-white text-black"
-                    }`}
-                  >
-                    Solar
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setCategory("diesel")}
+                  className={`px-4 py-2 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                    category === "diesel"
+                      ? "bg-blue-400 text-white"
+                      : "bg-white text-black"
+                  }`}
+                >
+                  Diesel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategory("solar")}
+                  className={`px-4 py-2 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                    category === "solar"
+                      ? "bg-blue-400 text-white"
+                      : "bg-white text-black"
+                  }`}
+                >
+                  Solar
+                </button>
               </div>
             </div>
           </div>
@@ -228,7 +241,7 @@ export default function UpdatePage() {
             />
           </div>
 
-          <div className="mb-6">
+          <div className="mb-4">
             <label className="block text-black font-semibold pb-2">Date</label>
             <input
               type="date"
@@ -238,14 +251,12 @@ export default function UpdatePage() {
             />
           </div>
 
-          <div className="flex flex-col items-center justify-center my-10">
-            <button
-              type="submit"
-              className="bg-[#2945FF] hover:bg-[#1B34B7] text-white px-4 py-2 rounded-xl w-full border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
-            >
-              Save Changes
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-3 text-white bg-black rounded-xl shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+          >
+            Update Transaction
+          </button>
         </form>
       </div>
       <BottomBar />

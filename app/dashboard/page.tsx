@@ -77,24 +77,29 @@ export default function FuelPurchasesPage() {
     }
   };
 
-  // const formatDate = (dateString: string) => {
-  //   const date = new Date(dateString);
-  //   return date.toLocaleString("id-ID", {
-  //     day: "2-digit",
-  //     month: "2-digit",
-  //     year: "numeric",
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //   });
-  // };
-
   return (
     <div className="w-full flex justify-center ">
       <div className="container mx-auto px-6 h-full max-h-screen bg-[#EAEDFF]">
         <div className="h-auto p-2 relative">
           <div className="fixed h-auto top-0 left-0 w-full pt-10 px-6 z-50 bg-[#EAEDFF]">
             <div className="flex items-center rounded-lg pb-4">
-              <div className="flex-shrink-0 bg-black p-6 rounded-lg"></div>
+              <div>
+                <div className="bg-white p-2 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      d="M10 4.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0m1.5 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m-9 8c0-.204.22-.809 1.32-1.459C4.838 10.44 6.32 10 8 10s3.162.44 4.18 1.041c1.1.65 1.32 1.255 1.32 1.459a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1m5.5-4c-3.85 0-7 2-7 4A2.5 2.5 0 0 0 3.5 15h9a2.5 2.5 0 0 0 2.5-2.5c0-2-3.15-4-7-4"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
               <div className="ml-4">
                 {user ? (
                   <form action={signOut} className="block items-center gap-2">
