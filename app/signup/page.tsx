@@ -160,7 +160,7 @@ export default async function Signup({
       return encodedRedirect(
         "success",
         "/signup",
-        "Thanks for signing up! Please check your email for a verification link."
+        "You have successfully created an account, please log in immediately"
       );
     }
   };
