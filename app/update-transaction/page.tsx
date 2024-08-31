@@ -17,15 +17,13 @@ export default function UpdatePage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [successAlert, setSuccessAlert] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [id, setId] = useState<string | null>(null);
-
-  const router = useRouter();
+  const [id, setId] = useState<string | null>(null); // Tambahan state untuk ID
   const searchParams = useSearchParams();
   const supabase = createClient();
 
   useEffect(() => {
     const transactionId = searchParams.get("id");
-    setId(transactionId);
+    setId(transactionId); // Set ID ke state
 
     const fetchData = async () => {
       if (transactionId) {
@@ -49,7 +47,7 @@ export default function UpdatePage() {
     };
 
     fetchData();
-  }, [searchParams, supabase]);
+  }, [supabase]);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,8 +69,6 @@ export default function UpdatePage() {
       } else {
         setSuccessAlert(true);
         setTimeout(() => setSuccessAlert(false), 3000);
-        // Opsional: Arahkan kembali ke halaman dashboard setelah berhasil mengupdate
-        router.push("/dashboard");
       }
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -178,15 +174,77 @@ export default function UpdatePage() {
             <label className="block text-black font-semibold pb-2">
               Category
             </label>
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="Input fuel type..."
-              className="w-full p-4 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
-            />
-          </div>
+            <div className="flex-col">
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <button
+                  type="button"
+                  onClick={() => setCategory("pertamax")}
+                  className={`px-4 py-2 rounded-xl  border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                    category === "pertamax"
+                      ? "bg-[#2945FF] text-white"
+                      : "bg-white text-black"
+                  }`}
+                >
+                  Pertamax
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategory("pertalite")}
+                  className={`px-4 py-2 rounded-xl  border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                    category === "pertalite"
+                      ? "bg-[#2945FF] text-white"
+                      : "bg-white text-black"
+                  }`}
+                >
+                  Pertalite
+                </button>
+              </div>
 
+              <div className="flex mb-4 gap-4">
+                <div className="basis-2/3">
+                  <button
+                    type="button"
+                    onClick={() => setCategory("dexlite")}
+                    className={`px-4 py-2 w-full rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                      category === "dexlite"
+                        ? "bg-[#2945FF] text-white"
+                        : "bg-white text-black"
+                    }`}
+                  >
+                    Dexlite
+                  </button>
+                </div>
+                <div className="w-full basis-1/3">
+                  <div className="flex justify-end items-end">
+                    <button
+                      type="button"
+                      onClick={() => setCategory("solar")}
+                      className={`px-4 py-2 rounded-xl w-full border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                        category === "solar"
+                          ? "bg-[#2945FF] text-white"
+                          : "bg-white text-black"
+                      }`}
+                    >
+                      Solar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="">
+                <button
+                  type="button"
+                  onClick={() => setCategory("pertamax-turbo")}
+                  className={`px-4 py-2 rounded-xl w-full border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                    category === "pertamax-turbo"
+                      ? "bg-[#2945FF] text-white"
+                      : "bg-white text-black"
+                  }`}
+                >
+                  Pertamax Turbo
+                </button>
+              </div>
+            </div>
+          </div>
           <div className="mb-4">
             <label className="block text-black font-semibold pb-2">
               Liters
@@ -197,9 +255,10 @@ export default function UpdatePage() {
                 const { value } = values;
                 setLiters(value);
               }}
+              thousandSeparator={true}
               decimalScale={2}
               allowNegative={false}
-              placeholder="Input liters amount..."
+              placeholder="Input your liters..."
               className="w-full p-4 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
             />
           </div>
@@ -214,12 +273,14 @@ export default function UpdatePage() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full p-4 mt-8 mb-20 bg-[#2945FF] text-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
-          >
-            Update Transaction
-          </button>
+          <div className="flex justify-center mt-10 mb-20">
+            <button
+              type="submit"
+              className="w-full bg-[#2945FF] text-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+            >
+              Update
+            </button>
+          </div>
         </form>
       </div>
       <BottomBar />
