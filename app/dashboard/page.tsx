@@ -14,7 +14,8 @@ export default function FuelPurchasesPage() {
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [lastTransaction, setLastTransaction] = useState<any>(null);
   const [user, setUser] = useState<any>(null); // State untuk menyimpan data user
-
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
   const router = useRouter();
 
   // Initialize Supabase client and fetch data inside useEffect
@@ -51,29 +52,31 @@ export default function FuelPurchasesPage() {
     setTotalExpenses(total);
   };
 
-  // Handle delete operation
-  const handleDelete = async (id: number) => {
-    // Show a confirmation dialog before deleting
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this transaction?"
-    );
+  const confirmDelete = (id: number) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
 
-    if (confirmDelete) {
+  // Handle delete operation
+  const handleDelete = async () => {
+    if (deleteId !== null) {
       const supabase = createClient();
       const { error } = await supabase
         .from("fuel_purchases")
         .delete()
-        .eq("id", id);
+        .eq("id", deleteId);
       if (error) {
         console.error("Error deleting data:", error);
       } else {
         const updatedPurchases = fuelPurchases.filter(
-          (purchase) => purchase.id !== id
+          (purchase) => purchase.id !== deleteId
         );
         setFuelPurchases(updatedPurchases);
         calculateTotalExpenses(updatedPurchases);
         setLastTransaction(updatedPurchases[0] || null);
       }
+      setShowDeleteModal(false);
+      setDeleteId(null);
     }
   };
 
@@ -229,9 +232,10 @@ export default function FuelPurchasesPage() {
                           </svg>
                         </button>
                       </div>
+
                       <button
                         className="text-red-500"
-                        onClick={() => handleDelete(purchase.id)}
+                        onClick={() => confirmDelete(purchase.id)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -258,6 +262,35 @@ export default function FuelPurchasesPage() {
                         })}
                       </p>
                     </div>
+                  </div>
+                  {/* Modal for delete confirmation */}
+                  <div>
+                    {showDeleteModal && (
+                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 m-6 rounded-lg shadow-lg">
+                          <h2 className="text-xl font-semibold mb-4">
+                            Delete Transaction
+                          </h2>
+                          <p className="mb-4">
+                            Are you sure you want to delete this transaction?
+                          </p>
+                          <div className="flex justify-end gap-4">
+                            <button
+                              className="px-4 py-2 text-black bg-gray-100 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+                              onClick={() => setShowDeleteModal(false)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className="px-4 py-2 text-white bg-red-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+                              onClick={handleDelete}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
