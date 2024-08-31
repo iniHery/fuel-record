@@ -17,13 +17,13 @@ export default function UpdatePage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [successAlert, setSuccessAlert] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const searchParams = useSearchParams();
 
   const [id, setId] = useState<string | null>(null); // Tambahan state untuk ID
 
   const supabase = createClient();
 
   useEffect(() => {
+    const searchParams = useSearchParams();
     const transactionId = searchParams.get("id");
     setId(transactionId); // Set ID ke state
 

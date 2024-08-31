@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import BottomBar from "@/components/bottom-bar/page";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Main component for Fuel Purchases Page
 export default function FuelPurchasesPage() {
@@ -80,10 +81,53 @@ export default function FuelPurchasesPage() {
   return (
     <div className="w-full flex justify-center ">
       <div className="container mx-auto px-6 h-full max-h-screen bg-[#EAEDFF]">
-        <div className="container mx-auto">
-          <div className="w-full mt-20">
+        <div className="container mx-auto pt-6">
+          <div className="flex items-center">
+            <Link href="/dashboard">
+              <button className="bg-white p-2 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  className="w-6 h-6 text-black"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+            </Link>
+            <div className="flex items-center justify-center w-full h-ful">
+              <h1 className="text-xl text-center text-black font-light size-xs">
+                Add Transaction
+              </h1>
+            </div>
+            <div>
+              <div className="bg-white p-2 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                    d="M10 4.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0m1.5 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m-9 8c0-.204.22-.809 1.32-1.459C4.838 10.44 6.32 10 8 10s3.162.44 4.18 1.041c1.1.65 1.32 1.255 1.32 1.459a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1m5.5-4c-3.85 0-7 2-7 4A2.5 2.5 0 0 0 3.5 15h9a2.5 2.5 0 0 0 2.5-2.5c0-2-3.15-4-7-4"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full mt-10">
             {fuelPurchases.map((purchase) => (
-              <div key={purchase.id} className="w-full flex-rows py-2 ">
+              <div key={purchase.id} className="w-full flex-rows">
                 <div className="flex flex-cols-2 gap-2 p-2 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
                   <div className="bg-black text-red-500 p-4 flex text-center items-center rounded-lg">
                     <svg
