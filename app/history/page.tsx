@@ -166,7 +166,9 @@ export default function FuelPurchasesPage() {
                         <button
                           type="button"
                           onClick={() =>
-                            router.push(`/update-transaction?id=${purchase.id}`)
+                            router.push(
+                              `/update-transaction/page?id=${purchase.id}`
+                            )
                           }
                           className="text-blue-500 mr-2"
                         >
