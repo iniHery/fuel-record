@@ -8,8 +8,6 @@ import Link from "next/link";
 import BottomBar from "@/components/bottom-bar/page";
 import { useRouter } from "next/navigation";
 
-// const supabase = createClient();
-
 export default function FuelPurchasesPage() {
   const [fuelPurchases, setFuelPurchases] = useState<any[]>([]);
   const [totalExpenses, setTotalExpenses] = useState(0);
@@ -18,34 +16,39 @@ export default function FuelPurchasesPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const router = useRouter();
+  const [supabase] = useState(createClient());
 
-  // Initialize Supabase client and fetch data inside useEffect
   useEffect(() => {
-    const supabase = createClient();
-
     const getData = async () => {
       try {
-        // Fetch fuel purchases
-        const { data: fuelData, error: fuelError } = await supabase
-          .from("fuel_purchases")
-          .select();
-        if (fuelError) throw fuelError;
-        setFuelPurchases(fuelData || []);
-        calculateTotalExpenses(fuelData || []);
-        setLastTransaction(fuelData?.[0] || null);
-
         // Fetch user data
         const { data: userData, error: userError } =
           await supabase.auth.getUser();
         if (userError) throw userError;
-        setUser(userData?.user || null);
+        const user = userData?.user;
+        setUser(user);
+
+        if (user) {
+          const userId = user.id;
+
+          // Fetch fuel purchases for the current user
+          const { data: fuelData, error: fuelError } = await supabase
+            .from("fuel_purchases")
+            .select()
+            .eq("user_id", userId); // Filter by user_id
+          if (fuelError) throw fuelError;
+
+          setFuelPurchases(fuelData || []);
+          calculateTotalExpenses(fuelData || []);
+          setLastTransaction(fuelData?.[0] || null);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     getData();
-  }, []);
+  }, [supabase]);
 
   // Function to calculate total expenses
   const calculateTotalExpenses = (data: any[]) => {
@@ -60,12 +63,12 @@ export default function FuelPurchasesPage() {
 
   // Handle delete operation
   const handleDelete = async () => {
-    if (deleteId !== null) {
-      const supabase = createClient();
+    if (deleteId !== null && user) {
       const { error } = await supabase
         .from("fuel_purchases")
         .delete()
-        .eq("id", deleteId);
+        .eq("id", deleteId)
+        .eq("user_id", user.id); // Ensure deletion is user-specific
       if (error) {
         console.error("Error deleting data:", error);
       } else {
@@ -264,40 +267,49 @@ export default function FuelPurchasesPage() {
                       </p>
                     </div>
                   </div>
-                  {/* Modal for delete confirmation */}
-                  {showDeleteModal && deleteId === purchase.id && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                      <div className="bg-white p-6 m-6 rounded-lg shadow-lg">
-                        <h2 className="text-xl font-semibold mb-4">
-                          Delete Transaction
-                        </h2>
-                        <p className="mb-4">
-                          Are you sure you want to delete this transaction?
-                        </p>
-                        <div className="flex justify-end gap-4">
-                          <button
-                            className="px-4 py-2 text-black bg-gray-100 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
-                            onClick={() => setShowDeleteModal(false)}
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            className="px-4 py-2 text-white bg-red-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
-                            onClick={handleDelete}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <BottomBar />
+        <div className="mt-8 fixed bottom-0 w-full">
+          <BottomBar />
+        </div>
       </div>
+
+      {showDeleteModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            className="bg-white p-6 m-6 rounded-lg shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-semibold mb-4">Delete Transaction</h2>
+            <p className="mb-4">
+              Are you sure you want to delete this transaction?
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 text-black bg-gray-100 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setDeleteId(null);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 text-white bg-red-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

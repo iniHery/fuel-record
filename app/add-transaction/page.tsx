@@ -12,22 +12,40 @@ export default function Page() {
   const [category, setCategory] = useState("");
   const [liters, setLiters] = useState("");
   const [date, setDate] = useState("");
-  const supabase = createClient();
   const [successAlert, setSuccessAlert] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null); // Tambahkan state untuk user ID
+  const supabase = createClient();
 
   useEffect(() => {
-    const getData = async () => {
-      const { data } = await supabase.from("fuel_purchases").select();
-      setFuelPurchases(data || []);
+    const fetchUserData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUserId(user?.id || null);
     };
-    getData();
-  }, []);
+
+    const getData = async () => {
+      if (userId) {
+        const { data } = await supabase
+          .from("fuel_purchases")
+          .select()
+          .eq("user_id", userId); // Filter berdasarkan user_id
+        setFuelPurchases(data || []);
+      }
+    };
+
+    fetchUserData().then(getData); // Ambil data user sebelum mengambil data fuel_purchases
+  }, [userId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!userId) {
+      console.error("User not logged in");
+      return;
+    }
     const { data, error } = await supabase
       .from("fuel_purchases")
-      .insert([{ amount, category, liters, date }]);
+      .insert([{ amount, category, liters, date, user_id: userId }]); // Tambahkan user_id
     if (error) {
       console.error("Error inserting data:", error);
     } else {
@@ -37,7 +55,7 @@ export default function Page() {
       setLiters("");
       setDate("");
       setSuccessAlert(true);
-      setTimeout(() => setSuccessAlert(true), 3000);
+      setTimeout(() => setSuccessAlert(false), 3000); // Set timer untuk menyembunyikan alert
     }
   };
 
