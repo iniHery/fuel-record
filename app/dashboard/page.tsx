@@ -8,6 +8,8 @@ import Link from "next/link";
 import BottomBar from "@/components/bottom-bar/page";
 import { useRouter } from "next/navigation";
 
+// const supabase = createClient();
+
 export default function FuelPurchasesPage() {
   const [fuelPurchases, setFuelPurchases] = useState<any[]>([]);
   const [totalExpenses, setTotalExpenses] = useState(0);
@@ -22,23 +24,23 @@ export default function FuelPurchasesPage() {
     const supabase = createClient();
 
     const getData = async () => {
-      // Mengambil data pembelian bahan bakar
-      const { data, error } = await supabase.from("fuel_purchases").select();
-      if (error) {
-        console.error("Error fetching data:", error);
-      } else {
-        setFuelPurchases(data || []);
-        calculateTotalExpenses(data || []);
-        setLastTransaction(data?.[0] || null);
-      }
+      try {
+        // Fetch fuel purchases
+        const { data: fuelData, error: fuelError } = await supabase
+          .from("fuel_purchases")
+          .select();
+        if (fuelError) throw fuelError;
+        setFuelPurchases(fuelData || []);
+        calculateTotalExpenses(fuelData || []);
+        setLastTransaction(fuelData?.[0] || null);
 
-      // Mengambil data user
-      const { data: userData, error: userError } =
-        await supabase.auth.getUser();
-      if (userError) {
-        console.error("Error fetching user:", userError);
-      } else {
+        // Fetch user data
+        const { data: userData, error: userError } =
+          await supabase.auth.getUser();
+        if (userError) throw userError;
         setUser(userData?.user || null);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -208,9 +210,7 @@ export default function FuelPurchasesPage() {
                         <button
                           type="button"
                           onClick={() =>
-                            router.push(
-                              `/update-transaction/page?id=${purchase.id}`
-                            )
+                            router.push(`/update-transaction?id=${purchase.id}`)
                           }
                           className="text-blue-500 mr-2"
                         >
