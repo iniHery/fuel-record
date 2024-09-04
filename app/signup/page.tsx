@@ -45,13 +45,13 @@ export default async function Signup({
     }
   };
 
-  if ("message" in searchParams) {
-    return (
-      <div className="w-full p-4 mb-4 text-white bg-green-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] relative">
-        <FormMessage message={searchParams} />
-      </div>
-    );
-  }
+  // if ("message" in searchParams) {
+  //   return (
+  //     <div className="w-full p-4 mb-4 text-white bg-green-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] relative">
+  //       <FormMessage message={searchParams} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-6">
@@ -114,7 +114,9 @@ export default async function Signup({
             Sign up
           </SubmitButton>
         </div>
-        <FormMessage message={searchParams} />
+        <div className="mt-2">
+          <FormMessage message={searchParams} />
+        </div>
       </form>
     </div>
   );

@@ -88,11 +88,11 @@ export default function FuelPurchasesPage() {
     <div className="w-full flex justify-center ">
       <div className="container mx-auto px-6 h-full bg-[#EAEDFF]">
         <div className="h-auto p-2 relative">
-          <div className="fixed h-auto top-0 left-0 w-full pt-10 px-6 z-50 bg-[#EAEDFF]">
-            <div className="flex items-center rounded-lg pb-4">
+          <div className="fixed h-auto top-0 left-0 w-full pt-6 px-6 z-50 bg-[#EAEDFF]">
+            <div className="flex items-center rounded-lg pb-6">
               <div>
-                <div className="bg-white p-2 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
-                  <svg
+                <div className="bg-white px-2 py-6  rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                  {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
@@ -104,13 +104,15 @@ export default function FuelPurchasesPage() {
                       d="M10 4.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0m1.5 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m-9 8c0-.204.22-.809 1.32-1.459C4.838 10.44 6.32 10 8 10s3.162.44 4.18 1.041c1.1.65 1.32 1.255 1.32 1.459a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1m5.5-4c-3.85 0-7 2-7 4A2.5 2.5 0 0 0 3.5 15h9a2.5 2.5 0 0 0 2.5-2.5c0-2-3.15-4-7-4"
                       clipRule="evenodd"
                     />
-                  </svg>
+                  </svg> */}
                 </div>
               </div>
               <div className="ml-4">
                 {user ? (
                   <form action={signOut} className="block items-center gap-2">
-                    <p className="font-medium">Gusher</p>
+                    <p className="font-semibold">
+                      Start from small things first
+                    </p>
                     <p className="text-gray-500 font-light text-sm">
                       {user.email}
                     </p>
@@ -189,7 +191,7 @@ export default function FuelPurchasesPage() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
-                        d="m12 5 6 6m-6-6-6 6m-6 6h12m0 0v-6m0 6v-6"
+                        d="m12 5 6 6m-6-6-6 6m6-6v14"
                       />
                     </svg>
                   </div>

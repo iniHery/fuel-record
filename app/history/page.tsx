@@ -148,7 +148,7 @@ export default function FuelPurchasesPage() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
-                        d="m12 5 6 6m-6-6-6 6m-6 6h12m0 0v-6m0 6v-6"
+                        d="m12 5 6 6m-6-6-6 6m6-6v14"
                       />
                     </svg>
                   </div>
@@ -157,14 +157,6 @@ export default function FuelPurchasesPage() {
                       <p className="text-[10px] text-gray-400">
                         {purchase.liters} Liter
                       </p>
-                      {/* <div>
-                        <div className="text-right text-black font-semibold">
-                          {purchase.amount.toLocaleString("id-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                          })}
-                        </div>
-                      </div> */}
                       <p className="font-medium uppercase">
                         {purchase.category}
                       </p>
