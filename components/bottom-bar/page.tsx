@@ -8,10 +8,13 @@ export default function BottomBar() {
       <div className="max-w-sm">
         <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white">
           <div className="grid h-full max-w-md grid-cols-4 items-center mx-auto font-regular text-xs">
-            <Link href="/dashboard">
+            <Link
+              href="/dashboard"
+              className="flex justify-center items-center"
+            >
               <button
                 type="button"
-                className="inline-flex flex-col items-center justify-center px-5 hover:text-[#2945FF] group text-black"
+                className="inline-flex flex-col items-center justify-center px-4 hover:text-[#2945FF] group text-black"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -31,10 +34,13 @@ export default function BottomBar() {
                 </span>
               </button>
             </Link>
-            <Link href="/add-transaction">
+            <Link
+              href="/add-transaction"
+              className="flex justify-center items-center"
+            >
               <button
                 type="button"
-                className="inline-flex flex-col items-center justify-center px-5 hover:text-[#2945FF] group text-black"
+                className="inline-flex flex-col items-center justify-center px-4 hover:text-[#2945FF] group text-black"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -55,10 +61,10 @@ export default function BottomBar() {
                 </span>
               </button>
             </Link>
-            <Link href="/history">
+            <Link href="/history" className="flex justify-center items-center">
               <button
                 type="button"
-                className="inline-flex flex-col items-center justify-center px-5 hover:text-[#2945FF] group text-black"
+                className="inline-flex flex-col items-center justify-center px-4 hover:text-[#2945FF] group text-black"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -78,10 +84,10 @@ export default function BottomBar() {
                 </span>
               </button>
             </Link>
-            <Link href="/profile">
+            <Link href="/profile" className="flex justify-center items-center">
               <button
                 type="button"
-                className="inline-flex flex-col items-center justify-center px-5 hover:text-[#2945FF] group text-black"
+                className="inline-flex flex-col items-center justify-center px-4 hover:text-[#2945FF] group text-black"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

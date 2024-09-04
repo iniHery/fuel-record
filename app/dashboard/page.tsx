@@ -85,14 +85,13 @@ export default function FuelPurchasesPage() {
   };
 
   return (
-    <div className="w-full flex justify-center ">
-      <div className="container mx-auto px-6 h-full bg-[#EAEDFF]">
-        <div className="h-auto p-2 relative">
-          <div className="fixed h-auto top-0 left-0 w-full pt-6 px-6 z-50 bg-[#EAEDFF]">
+    <div className="w-full flex justify-center">
+      <div className="container mx-auto h-full px-6 bg-[#EAEDFF]">
+        <div className="h-auto p-2 relative ">
+          <div className="absolute h-auto top-0 left-0 w-full pt-6 z-50 bg-[#EAEDFF]">
             <div className="flex items-center rounded-lg pb-6">
-              <div>
-                <div className="bg-white px-2 py-6  rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
-                  {/* <svg
+              <div className="bg-white px-2 py-6  rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
@@ -105,8 +104,8 @@ export default function FuelPurchasesPage() {
                       clipRule="evenodd"
                     />
                   </svg> */}
-                </div>
               </div>
+
               <div className="ml-4">
                 {user ? (
                   <form action={signOut} className="block items-center gap-2">
@@ -125,58 +124,62 @@ export default function FuelPurchasesPage() {
               </div>
             </div>
 
-            <div className="bg-[#3a54ff] p-2 rounded-xl w-full border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
-              <div className="font-semibold text-md text-[#97a5ff]">
-                My Balance
-              </div>
-              <div className="text-4xl py-4 flex text-white">
-                <span className="text-sm flex justify-start pr-2 text-white">
-                  Rp
-                </span>
-                {totalExpenses.toLocaleString("id-ID")}
-              </div>
-              <div className="flex justify-start items-center">
-                <div className="bg-[#6478FF] text-red-500 p-2 flex text-center items-center rounded-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m12 5 6 6m-6-6-6 6m6-6v14"
-                    />
-                  </svg>
+            <div className="w-full">
+              <div className="block justify-center items-center">
+                <div className="bg-[#3a54ff] p-2 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                  <div className="font-semibold text-md text-[#97a5ff]">
+                    My Balance
+                  </div>
+                  <div className="text-4xl py-4 flex text-white">
+                    <span className="text-sm flex justify-start pr-2 text-white">
+                      Rp
+                    </span>
+                    {totalExpenses.toLocaleString("id-ID")}
+                  </div>
+                  <div className="flex justify-start items-center">
+                    <div className="bg-[#6478FF] text-red-500 p-2 flex text-center items-center rounded-lg">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m12 5 6 6m-6-6-6 6m6-6v14"
+                        />
+                      </svg>
+                    </div>
+                    <div className="pl-2 text-[#97a5ff]">last expenses</div>
+                  </div>
+                  <div className="text-white">
+                    {lastTransaction
+                      ? lastTransaction.amount.toLocaleString("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        })
+                      : (0).toLocaleString("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        })}
+                  </div>
                 </div>
-                <div className="pl-2 text-[#97a5ff]">last expenses</div>
-              </div>
-              <div className="text-white">
-                {lastTransaction
-                  ? lastTransaction.amount.toLocaleString("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    })
-                  : (0).toLocaleString("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    })}
+                <label className="block text-black font-semibold pb-1 mt-4">
+                  Last transaction
+                </label>
               </div>
             </div>
-            <label className="block text-black font-semibold pb-1 mt-4">
-              Last transaction
-            </label>
           </div>
         </div>
 
         <div className="container mx-auto">
-          <div className="w-full mt-[90%] pb-[0%]">
+          <div className="w-full mt-[90%]">
             {fuelPurchases.map((purchase) => (
-              <div key={purchase.id} className="w-full flex-rows py-2 ">
+              <div key={purchase.id} className="w-full flex-rows py-2">
                 <div className="flex flex-cols-2 gap-2 p-2 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
                   <div className="bg-black text-red-500 p-4 flex text-center items-center rounded-lg">
                     <svg
