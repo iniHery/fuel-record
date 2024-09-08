@@ -2,9 +2,10 @@ import { signOut } from "@/app/login/actions";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { emailLogin } from "../signup/actions";
 
 export default async function WelcomeScreen() {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const {
     data: { user },
@@ -12,7 +13,7 @@ export default async function WelcomeScreen() {
 
   return (
     <>
-      <div className="w-full h-screen max-w-sm block mt-10 p-6">
+      <div className="w-full h-screen max-w-sm block mt-[36%] p-2">
         <div className="mt-10">
           <div className="flex justify-start items-center">
             <svg
@@ -110,10 +111,10 @@ export default async function WelcomeScreen() {
               </defs>
             </svg>
           </div>
-          <div className="flex justify-center items-center pt-2 mb-8 font-semibold">
-            <div className="block text-start my-10">
-              <div className="font-sans font-bold text-6xl">
-                CONTROL YOUR <span className="text-[#2945FF]">FUEL</span>{" "}
+          <div className="h-full flex justify-center items-center mx-4 pt-2 mb-8 font-semibold">
+            <div className="block text-start my-20">
+              <div className="font-sans font-extrabold text-[54px] leading-none">
+                CONTROL YOUR <span className="text-[#2945FF]">FUEL</span>
                 FINANCE
               </div>
               <div className="text-gray-500 font-light py-4">
@@ -125,9 +126,13 @@ export default async function WelcomeScreen() {
           <div>
             <div className="flex flex-1 items-center justify-start space-x-2">
               {user !== null ? (
-                <form action={signOut} className="flex items-center gap-2">
-                  <p>{user.email}</p>
-                  <Button>Sign Out</Button>
+                <form
+                  action={emailLogin}
+                  className="flex items-center gap-2 w-full"
+                >
+                  <Button className="w-full p-6 text-white font-medium text-xl bg-[#2945FF] rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                    Login
+                  </Button>
                 </form>
               ) : (
                 <Button
