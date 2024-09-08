@@ -2,11 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { signOut } from "@/app/login/actions";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import BottomBar from "@/components/bottom-bar/page";
 import { useRouter } from "next/navigation";
+import {
+  startOfWeek,
+  startOfMonth,
+  startOfYear,
+  endOfWeek,
+  endOfMonth,
+  endOfYear,
+} from "date-fns";
 
 export default function FuelPurchasesPage() {
   const [fuelPurchases, setFuelPurchases] = useState<any[]>([]);
@@ -17,6 +23,7 @@ export default function FuelPurchasesPage() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const router = useRouter();
   const [supabase] = useState(createClient());
+  const [filter, setFilter] = useState<string>("week"); // Default filter: minggu
 
   useEffect(() => {
     const getData = async () => {
@@ -31,11 +38,17 @@ export default function FuelPurchasesPage() {
         if (user) {
           const userId = user.id;
 
-          // Fetch fuel purchases for the current user
+          // Perubahan: Ambil data dengan filter rentang waktu (minggu/bulan/tahun)
+          const { startDate, endDate } = getStartAndEndDates(); // Perubahan
+
+          // Fetch fuel purchases untuk user yang sedang login dan sesuai dengan filter waktu
           const { data: fuelData, error: fuelError } = await supabase
             .from("fuel_purchases")
             .select()
-            .eq("user_id", userId); // Filter by user_id
+            .eq("user_id", userId) // Filter berdasarkan user_id
+            .gte("date", startDate.toISOString()) // Filter berdasarkan tanggal mulai
+            .lte("date", endDate.toISOString()); // Filter berdasarkan tanggal akhir
+
           if (fuelError) throw fuelError;
 
           setFuelPurchases(fuelData || []);
@@ -48,7 +61,7 @@ export default function FuelPurchasesPage() {
     };
 
     getData();
-  }, [supabase]);
+  }, [supabase, filter]);
 
   // Function to calculate total expenses
   const calculateTotalExpenses = (data: any[]) => {
@@ -82,6 +95,68 @@ export default function FuelPurchasesPage() {
       setShowDeleteModal(false);
       setDeleteId(null);
     }
+  };
+
+  const getStartAndEndDates = () => {
+    const today = new Date();
+    let startDate, endDate;
+
+    switch (filter) {
+      case "january":
+        startDate = new Date(today.getFullYear(), 0, 1);
+        endDate = new Date(today.getFullYear(), 0, 31);
+        break;
+      case "february":
+        startDate = new Date(today.getFullYear(), 1, 1);
+        endDate = new Date(today.getFullYear(), 1, 28);
+        break;
+      case "march":
+        startDate = new Date(today.getFullYear(), 2, 1);
+        endDate = new Date(today.getFullYear(), 2, 31);
+        break;
+      case "april":
+        startDate = new Date(today.getFullYear(), 3, 1);
+        endDate = new Date(today.getFullYear(), 3, 30);
+        break;
+      case "may":
+        startDate = new Date(today.getFullYear(), 4, 1);
+        endDate = new Date(today.getFullYear(), 4, 31);
+        break;
+      case "june":
+        startDate = new Date(today.getFullYear(), 5, 1);
+        endDate = new Date(today.getFullYear(), 5, 30);
+        break;
+      case "july":
+        startDate = new Date(today.getFullYear(), 6, 1);
+        endDate = new Date(today.getFullYear(), 6, 31);
+        break;
+      case "august":
+        startDate = new Date(today.getFullYear(), 7, 1);
+        endDate = new Date(today.getFullYear(), 7, 31);
+        break;
+      case "september":
+        startDate = new Date(today.getFullYear(), 8, 1);
+        endDate = new Date(today.getFullYear(), 8, 30);
+        break;
+      case "october":
+        startDate = new Date(today.getFullYear(), 9, 1);
+        endDate = new Date(today.getFullYear(), 9, 31);
+        break;
+      case "november":
+        startDate = new Date(today.getFullYear(), 10, 1);
+        endDate = new Date(today.getFullYear(), 10, 30);
+        break;
+      case "december":
+        startDate = new Date(today.getFullYear(), 11, 1);
+        endDate = new Date(today.getFullYear(), 11, 31);
+        break;
+      default:
+        startDate = startOfWeek(today);
+        endDate = endOfWeek(today);
+        break;
+    }
+
+    return { startDate, endDate };
   };
 
   return (
@@ -131,7 +206,132 @@ export default function FuelPurchasesPage() {
             </div>
           </div>
 
-          <div className="w-full mt-10 ">
+          <div className="mt-8 border-b border-gray-400">
+            <div className="flex justify-start gap-4 pt-4 pb-8 overflow-x-scroll no-scrollbar">
+              <button
+                onClick={() => setFilter("january")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "january"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Januari
+              </button>
+              <button
+                onClick={() => setFilter("february")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "february"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Februari
+              </button>
+              <button
+                onClick={() => setFilter("march")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "march"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Maret
+              </button>
+              <button
+                onClick={() => setFilter("april")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "april"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                April
+              </button>
+              <button
+                onClick={() => setFilter("may")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "may"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Mei
+              </button>
+              <button
+                onClick={() => setFilter("june")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "june"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Juni
+              </button>
+              <button
+                onClick={() => setFilter("july")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "july"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Juli
+              </button>
+              <button
+                onClick={() => setFilter("august")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "august"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Agustus
+              </button>
+              <button
+                onClick={() => setFilter("september")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "september"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                September
+              </button>
+              <button
+                onClick={() => setFilter("october")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "october"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Oktober
+              </button>
+              <button
+                onClick={() => setFilter("november")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "november"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                November
+              </button>
+              <button
+                onClick={() => setFilter("december")}
+                className={`flex flex-cols-2 gap-2 p-2 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] ${
+                  filter === "december"
+                    ? "bg-[#2945FF] text-white"
+                    : "bg-white text-black"
+                } rounded-xl`}
+              >
+                Desember
+              </button>
+            </div>
+          </div>
+
+          <div className="w-full mt-6">
             {fuelPurchases.map((purchase) => (
               <div key={purchase.id} className="w-full flex-rows py-2 ">
                 <div className="flex flex-cols-2 gap-2 p-2 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
@@ -161,7 +361,11 @@ export default function FuelPurchasesPage() {
                         {purchase.category}
                       </p>
                       <p className="text-[10px] text-gray-400">
-                        {purchase.date}
+                        {new Date(purchase.date).toLocaleDateString("id-ID", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
                       </p>
                     </div>
                   </div>

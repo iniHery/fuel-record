@@ -179,7 +179,7 @@ export default function FuelPurchasesPage() {
         <div className="container mx-auto">
           <div className="w-full mt-[90%]">
             {fuelPurchases.map((purchase) => (
-              <div key={purchase.id} className="w-full flex-rows py-2">
+              <div key={purchase.id} className="w-full flex-rows py-2 ">
                 <div className="flex flex-cols-2 gap-2 p-2 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
                   <div className="bg-black text-red-500 p-4 flex text-center items-center rounded-lg">
                     <svg
@@ -207,7 +207,11 @@ export default function FuelPurchasesPage() {
                         {purchase.category}
                       </p>
                       <p className="text-[10px] text-gray-400">
-                        {purchase.date}
+                        {new Date(purchase.date).toLocaleDateString("id-ID", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
                       </p>
                     </div>
                   </div>
