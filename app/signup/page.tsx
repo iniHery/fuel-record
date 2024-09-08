@@ -57,7 +57,7 @@ export default async function Signup({
     <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-6">
       <Link
         href="/login"
-        className="absolute left-[36%] top-6 p-2 flex justify-center items-center text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+        className="absolute left-[6%] top-6 p-2 flex justify-center items-center text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
