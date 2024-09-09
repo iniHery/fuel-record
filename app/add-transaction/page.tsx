@@ -61,7 +61,7 @@ export default function Page() {
 
   return (
     <div className="h-full w-full max-w-sm bg-[#EAEDFF]">
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-2 pt-4">
         <div className="flex items-center">
           <Link href="/dashboard">
             <button className="bg-white p-2 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
@@ -88,19 +88,25 @@ export default function Page() {
           </div>
           <div>
             <div className="bg-white p-2 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  d="M10 4.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0m1.5 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m-9 8c0-.204.22-.809 1.32-1.459C4.838 10.44 6.32 10 8 10s3.162.44 4.18 1.041c1.1.65 1.32 1.255 1.32 1.459a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1m5.5-4c-3.85 0-7 2-7 4A2.5 2.5 0 0 0 3.5 15h9a2.5 2.5 0 0 0 2.5-2.5c0-2-3.15-4-7-4"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <Link href="/profile">
+                <div>
+                  <div className="bg-white p-2 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill="currentColor"
+                        fillRule="evenodd"
+                        d="M10 4.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0m1.5 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m-9 8c0-.204.22-.809 1.32-1.459C4.838 10.44 6.32 10 8 10s3.162.44 4.18 1.041c1.1.65 1.32 1.255 1.32 1.459a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1m5.5-4c-3.85 0-7 2-7 4A2.5 2.5 0 0 0 3.5 15h9a2.5 2.5 0 0 0 2.5-2.5c0-2-3.15-4-7-4"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -130,6 +136,10 @@ export default function Page() {
               thousandSeparator={true}
               decimalScale={2}
               allowNegative={false}
+              isAllowed={(values) => {
+                const { floatValue } = values;
+                return floatValue === undefined || floatValue <= 10000000;
+              }}
               placeholder="Input your amount..."
               className="w-full p-4 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
             />
@@ -234,7 +244,7 @@ export default function Page() {
             />
           </div>
 
-          <div className="my-32">
+          <div className="my-14">
             <button
               type="submit"
               className="w-full p-4 text-white font-medium bg-[#2945FF] rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"

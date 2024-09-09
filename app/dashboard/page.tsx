@@ -90,8 +90,9 @@ export default function FuelPurchasesPage() {
         <div className="h-auto p-2 relative ">
           <div className="absolute h-auto top-0 left-0 w-full pt-6 z-50 bg-[#EAEDFF]">
             <div className="flex items-center rounded-lg pb-6">
-              <div className="bg-white px-2 py-6  rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
-                {/* <svg
+              <Link href="/profile">
+                <div className="bg-white p-4 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
@@ -103,8 +104,9 @@ export default function FuelPurchasesPage() {
                       d="M10 4.5a2 2 0 1 1-4 0a2 2 0 0 1 4 0m1.5 0a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0m-9 8c0-.204.22-.809 1.32-1.459C4.838 10.44 6.32 10 8 10s3.162.44 4.18 1.041c1.1.65 1.32 1.255 1.32 1.459a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1m5.5-4c-3.85 0-7 2-7 4A2.5 2.5 0 0 0 3.5 15h9a2.5 2.5 0 0 0 2.5-2.5c0-2-3.15-4-7-4"
                       clipRule="evenodd"
                     />
-                  </svg> */}
-              </div>
+                  </svg>
+                </div>
+              </Link>
 
               <div className="ml-4">
                 {user ? (
@@ -177,7 +179,7 @@ export default function FuelPurchasesPage() {
         </div>
 
         <div className="container mx-auto">
-          <div className="w-full mt-[90%]">
+          <div className="w-full mt-[90%] mb-[20%]">
             {fuelPurchases.map((purchase) => (
               <div key={purchase.id} className="w-full flex-rows py-2 ">
                 <div className="flex flex-cols-2 gap-2 p-2 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
