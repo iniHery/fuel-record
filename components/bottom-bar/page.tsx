@@ -13,15 +13,13 @@ export default function BottomBar() {
   return (
     <div className="max-w-sm">
       <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white shadow-lg">
-        <div className="grid h-full max-w-md grid-cols-4 items-center mx-auto font-regular text-xs">
+        <div className="flex h-full max-w-md flex-cols-4 justify-center items-center mx-auto gap-8 font-regular text-xs">
           <Link href="/dashboard">
             <button
               type="button"
               onClick={() => handleClick("home")}
               className={`inline-flex flex-col items-center justify-center px-4 group ${
-                activeButton === "home"
-                  ? "text-[#2945FF] font-bold"
-                  : "text-black"
+                activeButton === "home" ? "text-[#2945FF]" : "text-black"
               }`}
             >
               <svg
@@ -46,9 +44,7 @@ export default function BottomBar() {
               type="button"
               onClick={() => handleClick("add")}
               className={`inline-flex flex-col items-center justify-center px-4 group ${
-                activeButton === "add"
-                  ? "text-[#2945FF] font-bold"
-                  : "text-black"
+                activeButton === "add" ? "text-[#2945FF] " : "text-black"
               }`}
             >
               <svg
@@ -73,9 +69,7 @@ export default function BottomBar() {
               type="button"
               onClick={() => handleClick("history")}
               className={`inline-flex flex-col items-center justify-center px-4 group ${
-                activeButton === "history"
-                  ? "text-[#2945FF] font-bold"
-                  : "text-black"
+                activeButton === "history" ? "text-[#2945FF] " : "text-black"
               }`}
             >
               <svg
@@ -100,9 +94,7 @@ export default function BottomBar() {
               type="button"
               onClick={() => handleClick("profile")}
               className={`inline-flex flex-col items-center justify-center px-4 group ${
-                activeButton === "profile"
-                  ? "text-[#2945FF] font-bold"
-                  : "text-black"
+                activeButton === "profile" ? "text-[#2945FF] " : "text-black"
               }`}
             >
               <svg
