@@ -35,7 +35,8 @@ export default function FuelPurchasesPage() {
           const { data: fuelData, error: fuelError } = await supabase
             .from("fuel_purchases")
             .select()
-            .eq("user_id", userId); // Filter by user_id
+            .eq("user_id", userId)
+            .order("date", { ascending: false }); // Urutkan berdasarkan tanggal, yang terbaru di atas
           if (fuelError) throw fuelError;
 
           setFuelPurchases(fuelData || []);
