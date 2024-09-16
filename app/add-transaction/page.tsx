@@ -60,8 +60,8 @@ export default function Page() {
   };
 
   return (
-    <div className="h-full w-full max-w-sm bg-[#EAEDFF]">
-      <div className="container mx-auto p-2 pt-4">
+    <div className="h-full w-full max-w-sm mb-8  bg-[#EAEDFF]">
+      <div className="container mx-auto p-6 pt-4">
         <div className="flex items-center">
           <Link href="/dashboard">
             <button className="bg-white p-2 rounded-[8px] border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">

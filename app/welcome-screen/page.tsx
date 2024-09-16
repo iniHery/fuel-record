@@ -13,7 +13,7 @@ export default async function WelcomeScreen() {
 
   return (
     <>
-      <div className="w-full max-w-sm block mt-[36%] p-2">
+      <div className="w-full h-screen max-w-sm block pt-16 p-6">
         <div className="mt-10">
           <div className="flex justify-start items-center">
             <svg
@@ -111,9 +111,9 @@ export default async function WelcomeScreen() {
               </defs>
             </svg>
           </div>
-          <div className="h-full flex justify-center items-center mx-4 pt-2 mb-8 font-semibold">
+          <div className="w-full max-w-sm">
             <div className="block text-start my-20">
-              <div className="font-sans font-extrabold text-[54px] leading-none">
+              <div className="font-sans font-extrabold text-[44px] leading-none">
                 CONTROL YOUR <span className="text-[#2945FF]">FUEL</span>
                 FINANCE
               </div>
