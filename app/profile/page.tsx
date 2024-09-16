@@ -123,7 +123,7 @@ export default function Profile() {
                     </div>
 
                     <div className="w-full p-4 my-6 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
-                      <p>Email: {user.email}</p>
+                      <p>{user.email}</p>
                     </div>
 
                     <button
