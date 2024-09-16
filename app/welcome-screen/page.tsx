@@ -13,7 +13,7 @@ export default async function WelcomeScreen() {
 
   return (
     <>
-      <div className="w-full h-screen max-w-sm block pt-16 p-6">
+      <div className="w-full h-screen max-w-sm block pt-[200px] p-6">
         <div className="mt-10">
           <div className="flex justify-start items-center">
             <svg
