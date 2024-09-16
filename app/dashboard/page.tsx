@@ -48,7 +48,7 @@ export default function FuelPurchasesPage() {
             .from("fuel_purchases")
             .select()
             .eq("user_id", userId)
-            .order("date", { ascending: true }); // Urutkan berdasarkan tanggal, yang terbaru di atas
+            .order("created_at", { ascending: false });
           if (fuelError) throw fuelError;
 
           setFuelPurchases(fuelData || []);
