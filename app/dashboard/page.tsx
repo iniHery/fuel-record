@@ -12,7 +12,8 @@ export default function FuelPurchasesPage() {
   const [fuelPurchases, setFuelPurchases] = useState<any[]>([]);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [lastTransaction, setLastTransaction] = useState<any>(null);
-  const [user, setUser] = useState<any>(null); // State untuk menyimpan data user
+  const [user, setUser] = useState<any>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const router = useRouter();
@@ -31,7 +32,18 @@ export default function FuelPurchasesPage() {
         if (user) {
           const userId = user.id;
 
-          // Fetch fuel purchases for the current user
+          const { data: userProfile, error: profileError } = await supabase
+            .from("profiles")
+            .select("user_name") // Ambil nama user
+            .eq("id", userData?.user?.id) // Filter dengan id user
+            .single();
+
+          if (profileError) {
+            console.error("Error fetching user profile:", profileError);
+          } else {
+            setUserName(userProfile?.user_name || null); // Set nama pengguna
+          }
+
           const { data: fuelData, error: fuelError } = await supabase
             .from("fuel_purchases")
             .select()
@@ -112,9 +124,15 @@ export default function FuelPurchasesPage() {
               <div className="ml-4">
                 {user ? (
                   <form action={signOut} className="block items-center gap-2">
-                    <p className="font-semibold">
-                      Start from small things first
-                    </p>
+                    <div className="font-semibold w-full">
+                      {userName ? (
+                        <p>
+                          {userName.charAt(0).toUpperCase() + userName.slice(1)}
+                        </p>
+                      ) : (
+                        <p>Loading username...</p>
+                      )}
+                    </div>
                     <p className="text-gray-500 font-light text-sm">
                       {user.email}
                     </p>
