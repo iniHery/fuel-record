@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import BottomBar from "@/components/bottom-bar/page";
 
-export default function Ptofile() {
+export default function Profile() {
   const [user, setUser] = useState<any>(null); // State untuk menyimpan data user
+  const [userName, setUserName] = useState<string | null>(null); // State untuk menyimpan user name
 
   useEffect(() => {
     const supabase = createClient();
@@ -21,11 +22,25 @@ export default function Ptofile() {
         console.error("Error fetching user:", userError);
       } else {
         setUser(userData?.user || null);
+
+        // Jika ada informasi tambahan terkait nama pengguna (user metadata)
+        const { data: userProfile, error: profileError } = await supabase
+          .from("profiles") // Sesuaikan dengan tabel profil yang kamu miliki
+          .select("user_name") // Ambil nama user
+          .eq("id", userData?.user?.id) // Filter dengan id user
+          .single();
+
+        if (profileError) {
+          console.error("Error fetching user profile:", profileError);
+        } else {
+          setUserName(userProfile?.user_name || null); // Set nama pengguna
+        }
       }
     };
 
     getData();
   }, []);
+
   return (
     <div className="h-screen w-full max-w-sm bg-[#EAEDFF]">
       <div className="container mx-auto p-6">
@@ -98,7 +113,17 @@ export default function Ptofile() {
                     className="block justify-start items-center"
                   >
                     <div className="w-full p-4 my-6 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
-                      <p>{user.email}</p>
+                      {userName ? (
+                        <p>
+                          {userName.charAt(0).toUpperCase() + userName.slice(1)}
+                        </p>
+                      ) : (
+                        <p>Loading username...</p>
+                      )}
+                    </div>
+
+                    <div className="w-full p-4 my-6 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]">
+                      <p>Email: {user.email}</p>
                     </div>
 
                     <button
