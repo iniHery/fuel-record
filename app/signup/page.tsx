@@ -16,14 +16,16 @@ export default async function Signup({
     "use server";
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();
+    const username = formData.get("username")?.toString();
     const supabase = createClient();
     const origin = headers().get("origin");
 
-    if (!email || !password) {
-      return { error: "Email and password are required" };
+    if (!email || !password || !username) {
+      return { error: "Email, password, and username are required" };
     }
 
-    const { error } = await supabase.auth.signUp({
+    // Sign up the user
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -35,23 +37,37 @@ export default async function Signup({
       console.error(error.code + " " + error.message);
       return encodedRedirect("error", "/signup", "Error trying to sign up");
     } else {
-      formData.delete("email"); // Clear the email input
-      formData.delete("password"); // Clear the password input
+      const userId = data.user?.id; // Get the user's ID
+
+      // Insert the user profile into the profiles table
+      if (userId) {
+        const { error: profileError } = await supabase.from("profiles").insert({
+          id: userId, // Use the user's ID
+          user_name: username, // Save the username
+        });
+
+        if (profileError) {
+          console.error("Error inserting profile: " + profileError.message);
+          return encodedRedirect(
+            "error",
+            "/signup",
+            "Error creating user profile"
+          );
+        }
+      }
+
+      // Clear form inputs after success
+      formData.delete("email");
+      formData.delete("password");
+      formData.delete("username");
+
       return encodedRedirect(
         "success",
-        "/signup",
+        "/login", // Redirect to login after signup
         "You have successfully created an account, please log in immediately"
       );
     }
   };
-
-  // if ("message" in searchParams) {
-  //   return (
-  //     <div className="w-full p-4 mb-4 text-white bg-green-500 rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)] relative">
-  //       <FormMessage message={searchParams} />
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-6">
@@ -91,6 +107,14 @@ export default async function Signup({
           </Link>
         </p>
         <div className="mt-8 flex flex-col gap-2 [&>input]:mb-3">
+          <Label htmlFor="username">Username</Label>
+          <Input
+            name="username"
+            placeholder="yourusername"
+            required
+            className="w-full p-4 text-black bg-white rounded-xl border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.8),0_0px_0px_rgba(0,0,0,0.8)]"
+          />
+
           <Label htmlFor="email">Email</Label>
           <Input
             name="email"
